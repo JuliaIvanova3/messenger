@@ -4,10 +4,13 @@ import VueRouter from 'vue-router'
 // Pages
 import Home from './components/home'
 // import About from './pages/About'
-import Register from './components/register'
-import Login from './components/login'
+import Register from './components/auth/register'
+import Login from './components/auth/login'
 import Dashboard from './components/dashboard'
 // import AdminDashboard from './pages/admin/Dashboard'
+import createChat from './components/chats/create-chat'
+
+
 Vue.use(VueRouter);
 // Routes
 const routes = [
@@ -52,6 +55,14 @@ const routes = [
       auth: true
     }
   },
+  {
+    path: '/chat/create',
+    name: 'char.create',
+    component: createChat,
+    meta: {
+      auth: undefined
+    }
+  }
 ]
 const router = new VueRouter({
   history: true,
