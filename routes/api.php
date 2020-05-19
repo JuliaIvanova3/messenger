@@ -39,3 +39,9 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', 'AuthController@logout');
     });
 });
+
+Route::post('/addchat', 'ChatController@store')->name('add.chat');
+
+Route::get('/users', 'UserController@index')->name('get.users');
+
+Route::post('/adduserchat', 'UsersChatsController@store')->name('add.userchat');

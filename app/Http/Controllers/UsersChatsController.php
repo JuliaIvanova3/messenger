@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\User;
+use App\UsersChats;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UsersChatsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        $users = $users->except(Auth::id());
-
-        return json_encode($users);
+        //
     }
 
     /**
@@ -39,16 +35,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        $userChat = UsersChats::create($params);
+        return json_encode($userChat);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(UsersChats $usersChats)
     {
         //
     }
@@ -56,10 +54,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(UsersChats $usersChats)
     {
         //
     }
@@ -68,10 +66,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, UsersChats $usersChats)
     {
         //
     }
@@ -79,10 +77,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(UsersChats $usersChats)
     {
         //
     }

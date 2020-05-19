@@ -35,7 +35,9 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        $chat = Chat::create($params);
+        return json_encode($chat);
     }
 
     /**
