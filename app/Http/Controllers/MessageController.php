@@ -12,10 +12,20 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $mesages = Message::where('chat_id',$request->input('chat_id'))->get();
+        foreach($mesages as $mesage) {
+            $mesage->read = 1;
+            $mesage->save();
+        }
+        foreach($mesages as $mesage) {
+            $mesage->from = $mesage->user->name;
+            $mesage->date = $mesage->created_at->format('Y-m-d : H-m');
+        }
+        return json_encode($mesages);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +45,9 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        $message = Message::create($params);
+        return json_encode($message);
     }
 
     /**
@@ -67,9 +79,12 @@ class MessageController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, $id)
     {
-        //
+        $params = $request->all();
+        $messages = Message::find($id)->update($params);
+        
+        return json_encode($messages);
     }
 
     /**
@@ -78,8 +93,10 @@ class MessageController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function destroy($id)
     {
-        //
+       $msg =  Message::find($id)->delete();
+
+       return json_encode($msg);
     }
 }

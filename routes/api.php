@@ -40,8 +40,18 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::post('/addchat', 'ChatController@store')->name('add.chat');
+Route::get('getchat', 'ChatController@index')->name('get.chat');
+Route::post('addchat', 'ChatController@store')->name('add.chat');
+Route::post('updatechat/{id}', 'ChatController@update')->name('update.chat');
 
-Route::get('/users', 'UserController@index')->name('get.users');
+Route::post('getmsgbychat', 'MessageController@index')->name('get.msg');
+Route::post('addmsg', 'MessageController@store')->name('add.msg');
+Route::post('messages/{id}', 'MessageController@update')->name('update.msg');
+Route::delete('messages/{id}', 'MessageController@destroy')->name('delete.msg');
 
-Route::post('/adduserchat', 'UsersChatsController@store')->name('add.userchat');
+Route::get('users', 'UserController@index')->name('get.users');
+
+Route::post('adduserchat', 'UsersChatsController@store')->name('add.userchat');
+Route::post('getByChat/{id}', 'UsersChatsController@index')->name('get.userchat');
+Route::delete('userchat/{id}', 'UsersChatsController@destroy')->name('delete.userchat');
+Route::post('getUsers/{id}', 'UsersChatsController@get')->name('getusers.notchat');

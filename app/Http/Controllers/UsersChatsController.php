@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
+use App\User;
 use App\UsersChats;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,22 @@ class UsersChatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $chats = UsersChats::with('user')->select('id', 'user_id')->where('chat_id', $id)->get();
+        // foreach($chats as $chat) {
+        //     $chat->member = $chat->user->name;
+        // }
+
+        return json_encode($chats);
+    }
+
+    public function get($id)
+    {
+        $users = UsersChats::select('user_id')->where('chat_id', $id)->get()->toArray();
+        //array_push($users, Auth::id());
+        $notUsers = User::whereNotIn('id', $users)->get();
+        return json_encode($notUsers);
     }
 
     /**
@@ -69,9 +83,12 @@ class UsersChatsController extends Controller
      * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UsersChats $usersChats)
+    public function update(Request $request, $id)
     {
-        //
+        $params = $request->all();
+        $record = UsersChats::find($id)->update($params);
+
+        return json_encode($record);
     }
 
     /**
@@ -80,8 +97,9 @@ class UsersChatsController extends Controller
      * @param  \App\UsersChats  $usersChats
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UsersChats $usersChats)
+    public function destroy($id)
     {
-        //
+        $record = UsersChats::find($id)->delete();
+        return json_encode($record);
     }
 }
