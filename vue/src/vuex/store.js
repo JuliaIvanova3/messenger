@@ -13,6 +13,11 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
     state: {
         users: [],
+        chats: [],
+        currentChat: '',
+        messages: [],
+        members: [],
+        notUsers: []
     },
     mutations,
     actions,

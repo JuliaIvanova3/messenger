@@ -64,7 +64,6 @@ export default {
     methods: {
         ...mapActions([
             'GET_USERS_FROM_API',
-            'POST_CHAT_TO_API'
         ]),
         addChat() {
             const formData = new FormData();
@@ -76,19 +75,30 @@ export default {
             .then ((response) => {
                 console.log(response.data.id)
                 this.newChatId = response.data.id
-                const formData1 = new FormData();
-                formData1.append('user_id', this.$auth.user().id )
-                formData1.append('chat_id', this.newChatId)
-
-                axios.post('http://messenger.test/api/adduserchat', formData1)
-                .then ((response) => {
-                    console.log(response.data)
-                })
+                this.addMembers();
+                
             })
 
-            
-            
             // console.log(this.$auth.user().id)
+        },
+        addMembers() {
+            const formData1 = new FormData();
+            formData1.append('user_id', this.firstMember)
+            formData1.append('chat_id', this.newChatId)
+
+            axios.post('http://messenger.test/api/adduserchat', formData1)
+            .then ((response) => {
+                console.log(response.data)
+            })
+
+            const formData2 = new FormData();
+            formData2.append('user_id', this.secondMember)
+            formData2.append('chat_id', this.newChatId)
+
+            axios.post('http://messenger.test/api/adduserchat', formData2)
+            .then ((response) => {
+                console.log(response.data)
+            })
         },
         addMember() {
             let vm = this;

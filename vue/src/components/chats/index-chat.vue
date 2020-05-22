@@ -5,120 +5,50 @@
             <p class="lead">Create new chat ...</p>
         </div>
         <div class="card-body">
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
-            
-            <div class="chat">
-                <img  :src="require('../../assets/user.png')"  alt="">
-                <div class="content">
-                    <p><strong> Ivan Ivanov </strong></p>
-                    <small>dfghjkl;</small>
-                </div>
-                <div class="notification float-right">
-                    <fa-icon :icon="['fa', 'pen']" class="icons" />
-                    <span class="badge badge-primary">10</span>
-                </div>
-            </div>
-
+            <chat-item
+                v-for="(chat,index) in CHATS"
+                :key="index"
+                :chat_data="chat"
+                @swicthActive="swicthActive"
+            />
         </div>
     </div>
 </template>
 
 <script>
 
+import {mapActions, mapGetters} from 'vuex'
+import chatItem from './chat-item'
 
 export default {
     name: 'inex-chat',
+    components: {
+        chatItem
+    },
+    data() {
+        return {
+            activeClass: ''
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'CHATS'
+        ])
+    },
     methods: {
+        ...mapActions([
+            'GET_CHATS_FROM_API',
+            'SET_CURRENT_CHAT'
+        ]),
         createChat() {
             this.$router.push('/chat/create');
+        },
+        swicthActive(data) {
+            this. SET_CURRENT_CHAT(data)
         }
+    },
+    mounted() {
+        this.GET_CHATS_FROM_API();
     }
 }
 </script>
@@ -133,6 +63,7 @@ export default {
 }
 .card-body {
     padding: 10px;
+    overflow: auto;
 }
 .icons {
     margin: 8px;
@@ -140,24 +71,5 @@ export default {
 .lead {
     margin: 0;
 }
-.chat {
-    border: solid 1px rgba(0, 0, 0, 0.125);
-    display: flex;
-    margin: 5px 0px;
-}
-.notification {
-    display: flex;
-    flex-direction: column;
-    margin-left: 135px;
-}
-img {
-    border-radius: 50%;
-    width: 60px;
-    padding: 5px;
-    margin: 2px;
-}
-p {
-    margin: 0px;
-};
 </style>
 

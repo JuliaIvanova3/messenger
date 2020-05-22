@@ -9,6 +9,7 @@ import Login from './components/auth/login'
 import Dashboard from './components/dashboard'
 // import AdminDashboard from './pages/admin/Dashboard'
 import createChat from './components/chats/create-chat'
+import editChat from './components/chats/edit-chat'
 
 
 Vue.use(VueRouter);
@@ -62,7 +63,15 @@ const routes = [
     meta: {
       auth: undefined
     }
-  }
+  },
+  {
+    path: '/chat/edit',
+    name: 'char.edit',
+    component: editChat,
+    meta: {
+      auth: undefined
+    }
+  },
 ]
 const router = new VueRouter({
   history: true,

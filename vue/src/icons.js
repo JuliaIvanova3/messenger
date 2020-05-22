@@ -5,10 +5,16 @@ import {faComments,
         faPlusCircle,
         faPen, 
         faPenAlt,
-        faPlusSquare
+        faPlusSquare,
+        faPaperPlane,
+        faPaperclip,
+        faCheck,
+        faCheckSquare,
+        faTrash,
+        faWindowClose
 } from '@fortawesome/free-solid-svg-icons'
 
 
-library.add(faComments, faPlusCircle, faPen, faPenAlt, faPlusSquare);
+library.add(faComments, faPlusCircle, faPen, faPenAlt, faPlusSquare, faPaperclip, faPaperPlane, faCheck,faCheckSquare, faTrash, faWindowClose);
 
 Vue.component('fa-icon', FontAwesomeIcon); 
