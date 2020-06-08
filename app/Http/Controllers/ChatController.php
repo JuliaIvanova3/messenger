@@ -61,7 +61,22 @@ class ChatController extends Controller
     public function store(Request $request)
     {
         $params = $request->all();
-        $chat = Chat::create($params);
+        $chat = new Chat();
+        $chat->creator_id = $request->input('creator_id');
+        $chat->title = $request->input('title');
+        $chat->save();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName =$chat->id.'.'.$image->getClientOriginalExtension();
+            $chat->image = $fileName;
+            $file = $image->storeAs('/uploads', $fileName, [
+                "disk" => 'public'
+            ]);
+        } else {
+            $chat->image = 'logo2.png';
+        }
+        $chat->save();
+
         return json_encode($chat);
     }
 
@@ -97,7 +112,19 @@ class ChatController extends Controller
     public function update(Request $request, $id)
     {
         $params = $request->all();
-        $chat = Chat::find($id)->update($params);
+        $chat = Chat::find($id);
+        $chat->title = $request->input('title');
+        
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName =$chat->id.'.'.$image->getClientOriginalExtension();
+            $chat->image = $fileName;
+            $file = $image->storeAs('/uploads', $fileName, [
+                "disk" => 'public'
+            ]);
+        }
+       
+        $chat->save();
 
         return json_encode($chat);
     }

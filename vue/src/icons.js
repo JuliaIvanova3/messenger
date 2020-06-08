@@ -11,10 +11,11 @@ import {faComments,
         faCheck,
         faCheckSquare,
         faTrash,
-        faWindowClose
+        faWindowClose,
+        faUpload
 } from '@fortawesome/free-solid-svg-icons'
 
 
-library.add(faComments, faPlusCircle, faPen, faPenAlt, faPlusSquare, faPaperclip, faPaperPlane, faCheck,faCheckSquare, faTrash, faWindowClose);
+library.add(faComments, faPlusCircle, faPen, faPenAlt, faPlusSquare, faPaperclip, faPaperPlane, faCheck,faCheckSquare, faTrash, faWindowClose, faUpload);
 
 Vue.component('fa-icon', FontAwesomeIcon); 

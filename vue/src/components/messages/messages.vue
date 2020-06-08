@@ -1,7 +1,7 @@
 <template>
     <div class="messages" ref="messages">
          <message-item
-            v-for="message in MESSAGES"
+            v-for="message in message_data.slice().reverse()"
             :key="message.id"
             :message="message"
             @editMsg="editMsg"
@@ -14,17 +14,25 @@
 
 import MessageItem from './message-item'
 
-import {mapGetters} from 'vuex'
+
 
 export default {
     name: 'messages',
+    props: {
+        message_data: {
+            type: Array,
+            default: () => []
+        }
+    },
     components: {
       MessageItem
     },
+    data() {
+        return {
+            
+        }
+    },
     computed: {
-        ...mapGetters([
-            'MESSAGES'
-        ])
     },
     methods: {
         editMsg(data){
@@ -35,6 +43,8 @@ export default {
         },
        
     },
+    mounted() {
+    }
     
 }
 </script>

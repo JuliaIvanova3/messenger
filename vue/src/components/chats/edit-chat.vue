@@ -14,6 +14,25 @@
                     <strong>Error!</strong> The <strong>Title</strong> need to be more than 3 symbols.
                 </div>
                 <hr/>
+                <div class="image">
+                    <img v-if="url" :src="url" />
+                    <img v-if="!url" :src="require('../../../../storage/app/public/uploads/'+ CURRENT_CHAT.image)"  alt="">
+                    <div class="input-group mb-3">
+                        <input 
+                            type="file" 
+                            class="form-control" 
+                            id="file" 
+                            ref="file" 
+                            v-on:change="handleFileUpload()"
+                            >
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <fa-icon :icon="['fa', 'upload']"  />
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
                 <div class="form-group" v-if="MEMBERS.length">
                     <label> Members</label>
                     <div class="members">
@@ -71,7 +90,9 @@ export default {
             firstMember: '',
             members: [],
             titleError: false,
-            memberError: false
+            memberError: false,
+            url: '',
+            file: ''
         }
     },
     computed: {
@@ -86,39 +107,53 @@ export default {
         ...mapActions([
             'GET_NOT_USERS_FROM_API',
             'GET_MEMBERS_FROM_API',
-            'GET_CHATS_FROM_API'
+            'GET_CHATS_FROM_API',
+            'SET_CURRENT_CHAT'
         ]),
         editChat() {
-
             if ( this.chatTitle.length < 3) {
                 return this.titleError = true;
                 
             } else  {
-                if (!this.members && !this.firstMember) {
-                    return this.memberError = true;
-                } else {
+                if ( this.firstMember != "" || this.MEMBERS.length) {
                     const formData = new FormData();
                     formData.append('title', this.chatTitle);
+                    if (this.file != '') {
+                        formData.append('image', this.file);
+                    }
 
-                    axios.post('http://messenger.test/api/updatechat/'+this.CURRENT_CHAT.id, formData)
+                    //console.log(formData.getAll('image'))
+                    axios.post('http://messenger.test/api/updatechat/'+this.CURRENT_CHAT.id, formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                    )
                     .then ((response) => {
-                        console.log(response.data.id)
+                        console.log(response.data)
+                        this.SET_CURRENT_CHAT(response.data);
+                        //console.log(formData.getAll('image'))
                         this.GET_CHATS_FROM_API();
                         this.$router.push('/dashboard');
                         
                     })
+                   
+                    this.titleError = false;
+                } else {
+                    return this.memberError = true;
                 }
             }
         },
         addMembers() {
 
-            if ( this.firstMember != "" && this.MEMBERS.length) {
+            if ( this.firstMember != "" || this.MEMBERS.length) {
                 this.memberError = false;
                 const formData = new FormData();
                 formData.append('user_id', this.firstMember)
                 formData.append('chat_id', this.CURRENT_CHAT.id)
 
-                axios.post('http://messenger.test/api/adduserchat', formData)
+                axios.post('http://messenger.test/api/adduserchat', formData,)
                 .then ((response) => {
                     console.log(response.data)
                     this.GET_MEMBERS_FROM_API();
@@ -139,7 +174,11 @@ export default {
                 console.log(response.data)
                 this.GET_MEMBERS_FROM_API();
             })
-        }
+        },
+        handleFileUpload() {
+            this.file = this.$refs.file.files[0];
+            this.url = URL.createObjectURL(this.file);
+        },
     },
     mounted() {
         this.GET_NOT_USERS_FROM_API();
@@ -160,12 +199,20 @@ export default {
 .icons {
     margin: 8px;
 }
-
+img {
+    border-radius: 50%;
+    width: 60px;
+    padding: 5px;
+    margin: 2px;
+}
 .badge {
     font-size: 85%;
     margin: 5px;
 }
 li {
     list-style-type: none; /* Убираем маркеры */
+}
+image {
+    display: flex;
 }
 </style>

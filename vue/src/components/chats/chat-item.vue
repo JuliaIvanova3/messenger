@@ -1,13 +1,13 @@
 <template>
     <div class="chat" :class="{ active: isActive }" @click="activeTrue(chat_data)">
-        <img  :src="require('../../assets/logo2.png')"  alt="">
+        <img  :src="require('../../../../storage/app/public/uploads/'+ chat_data.image)"  alt="">
         <div class="content">
             <p><strong> {{chat_data.title}} </strong></p>
             <small> {{chat_data.last_msg ? chat_data.last_msg.text : '...' }}</small>
         </div>
         <div class="notification">
             <div class="inside">
-            <fa-icon :icon="['fa', 'pen']" class="icons" v-if="editable" />
+            <fa-icon :icon="['fa', 'pen']" class="icons" v-if="editable"  @click="editChat"/>
             <span class="badge badge-primary" v-if="unread">{{chat_data.unread}}</span>
             </div>
         </div>
@@ -50,6 +50,9 @@ export default {
     methods: {
         activeTrue(data) {
             this.$emit('swicthActive', data)
+        },
+        editChat() {
+            this.$router.push('/chat/edit');
         },
 
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="card">
-        <div class="card-header text-secondary">
-            <fa-icon :icon="['fa','plus-circle']" @click="createChat" class="icons" size="1x"/>
+        <div class="card-header text-secondary" @click="createChat">
+            <fa-icon :icon="['fa','plus-circle']"  class="icons" size="1x"/>
             <p class="lead">Create new chat ...</p>
         </div>
         <div class="card-body">
@@ -49,6 +49,9 @@ export default {
     },
     mounted() {
         this.GET_CHATS_FROM_API();
+    },
+    updated() {
+        this.swicthActive
     }
 }
 </script>

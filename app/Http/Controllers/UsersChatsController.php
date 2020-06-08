@@ -25,9 +25,13 @@ class UsersChatsController extends Controller
 
     public function get($id)
     {
-        $users = UsersChats::select('user_id')->where('chat_id', $id)->get()->toArray();
-        //array_push($users, Auth::id());
-        $notUsers = User::whereNotIn('id', $users)->get();
+        $users = UsersChats::where('chat_id', $id)->get();
+        $nUsers = [];
+        foreach($users as $user) {
+            $nUsers[] = $user->user_id;
+        }
+        array_push($nUsers, Auth::id());
+        $notUsers = User::whereNotIn('id', $nUsers)->get();
         return json_encode($notUsers);
     }
 

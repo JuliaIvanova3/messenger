@@ -14,7 +14,8 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $mesages = Message::where('chat_id',$request->input('chat_id'))->get();
+        $offset = $request->input('offset'); 
+        $mesages = Message::where('chat_id',$request->input('chat_id'))->orderBy('created_at', 'desc')->get();  //->skip($offset)->take(7)
         foreach($mesages as $mesage) {
             $mesage->read = 1;
             $mesage->save();
