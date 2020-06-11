@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Illuminate\Http\Request;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
@@ -44,11 +45,19 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MessageRequest $request)
     {
-        $params = $request->all();
-        $message = Message::create($params);
-        return json_encode($message);
+        //$params = $request->all();
+        //$message = Message::create($params);
+        $message = new Message();
+        $message->text = $request->input('text');
+        $message->user_id = $request->input('user_id');
+        $message->chat_id = $request->input('chat_id');
+        $message->save();
+
+       // \App\Events\NewMessage::dispatch($request->all());
+        return json_encode($request->all());
+       
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Chat;
 use App\UsersChats;
 use App\Message;
 use Illuminate\Http\Request;
+use App\Http\Requests\ChatRequest;
 use Auth;
 
 class ChatController extends Controller
@@ -58,7 +59,7 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ChatRequest $request)
     {
         $params = $request->all();
         $chat = new Chat();
