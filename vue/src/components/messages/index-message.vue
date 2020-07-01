@@ -110,6 +110,18 @@ export default {
         }
         
     },
+    sockets: {
+        connect: function () {
+            // console.log('socket connected')
+            alert('socket connected')
+        },
+        disconnect() {
+            alert('socket disconnected')
+        },
+        // customEmit: function () {
+        //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        // }
+    },
     methods: {
         ...mapActions([
             'GET_MESSAGES_FROM_API',
@@ -130,13 +142,14 @@ export default {
                     formData.append('text', this.textMessage);
                     formData.append('user_id', this.$auth.user().id)
                     formData.append('chat_id', this.CURRENT_CHAT.id);
+                    formData.append('channels', 'chat.'+this.CURRENT_CHAT.id);
 
                     axios.post('http://messenger.test/api/addmsg', formData)
                     .then((response) => {
                         console.log(response.data)
                         this.textMessage = ''
                         this.message = []
-                        this.load();
+                        // this.load();
                         this.GET_CHATS_FROM_API();
                         this.GET_MESSAGES_FROM_API();
                     })
@@ -206,6 +219,12 @@ export default {
     },
     mounted() {
         this.scrollToEnd();
+
+        // this.sockets.subscribe("chat."+this.CURRENT_CHAT.id +":App\\Events\\NewMessage", (data) => {
+        //     console.log(data.message)
+           
+        // });
+        // console.log("chat."+this.CURRENT_CHAT.id +":App\\Events\\NewMessage")
         // this.GET_MESSAGES_FROM_API();
         // this.GET_MEMBERS_FROM_API();
         // this.GET_CHATS_FROM_API();
@@ -230,11 +249,16 @@ export default {
             //this.GET_CHATS_FROM_API();
             //this.message = []
             //this.load();
+            // console.log("chat."+this.CURRENT_CHAT.id +":App\\Events\\NewMessage");
+            
+        this.sockets.subscribe("chat."+this.CURRENT_CHAT.id +":App\\Events\\NewMessage", (data) => {
+            console.log(data.message)
            
+        });
         },
     },
     updated() {
-        //this.scrollToEnd();
+        this.scrollToEnd();
         //this.GET_MESSAGES_FROM_API();
       // console.log(this.$refs.messages.scrollTop)
     }

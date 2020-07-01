@@ -126,7 +126,6 @@ export default {
                
 
             }
-            // console.log(this.$auth.user().id)
         },
         addMembers() {
             const formData1 = new FormData();

@@ -69,7 +69,6 @@ export default {
         } else {
             return axios.post('http://messenger.test/api/getUsers/'+this.state.currentChat.id)
             .then ((users) => {
-                console.log(users.data)
                 commit('SET_NOT_USERS_TO_STATE', users.data);
                 return users;
             })

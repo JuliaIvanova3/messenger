@@ -10,9 +10,18 @@ import router from './router'
 import store from './vuex/store'
 import './assets/app.scss';
 import './icons'
+import VueSocketIO from 'vue-socket.io'
+import SocketIO from "socket.io-client"
 
 // Set Vue globally
 window.Vue = Vue
+
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: SocketIO('http://messenger.test:3000')
+})
+);
+
 // Set Vue router
 Vue.router = router
 Vue.use(VueRouter)

@@ -1,6 +1,6 @@
 <template>
     <div class="chat" :class="{ active: isActive }" @click="activeTrue(chat_data)">
-        <img  :src="require('../../../../storage/app/public/uploads/'+ chat_data.image)"  alt="">
+        <img :src="require('../../../../storage/app/public/storage/' + chat_data.image)"  alt="">
         <div class="content">
             <p><strong> {{chat_data.title}} </strong></p>
             <small> {{chat_data.last_msg ? chat_data.last_msg.text : '...' }}</small>

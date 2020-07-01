@@ -47,7 +47,7 @@ class MessageController extends Controller
      */
     public function store(MessageRequest $request)
     {
-        //$params = $request->all();
+        // $params = $request->all();
         //$message = Message::create($params);
         $message = new Message();
         $message->text = $request->input('text');
@@ -55,7 +55,7 @@ class MessageController extends Controller
         $message->chat_id = $request->input('chat_id');
         $message->save();
 
-       // \App\Events\NewMessage::dispatch($request->all());
+       \App\Events\NewMessage::dispatch($request->all());
         return json_encode($request->all());
        
     }

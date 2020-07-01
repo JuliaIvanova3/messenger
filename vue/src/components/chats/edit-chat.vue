@@ -15,8 +15,8 @@
                 </div>
                 <hr/>
                 <div class="image">
-                    <img v-if="url" :src="url" />
-                    <img v-if="!url" :src="require('../../../../storage/app/public/uploads/'+ CURRENT_CHAT.image)"  alt="">
+                    <!-- <img v-if="url" :src="url" /> -->
+                    <img v-if="!url" :src="require('../../../../storage/app/public/storage/' + CURRENT_CHAT.image)"  alt="">
                     <div class="input-group mb-3">
                         <input 
                             type="file" 
